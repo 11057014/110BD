@@ -152,11 +152,11 @@ import os
 #配合上面之api來計算mysql操作時間
 @timeSpent
 def insertTest(times,data,table):
-    with Pool(processes=4) as pool:
-        for i in range(times):
-            print(i)
-            pool.apply_async(insert2mysql, ([table,data],))
-            #insert2mysql(table,data)
+    pool = Pool(4)
+    for i in range(times):
+        print(i)
+        pool.map_async(insert2mysql,[table,data])
+        #insert2mysql(table,data)
     return
     
 @timeSpent
