@@ -94,6 +94,7 @@ def connect2mysql(host,user,passwd,db):
 #將資料存入mysql
 def insert2mysql():
     [table, data]=q.get()
+    print(table)
     sql = """INSERT INTO """+table+"""(network,station,location,channel,starttime,endtime,sampling_rate,delta,npts,calib,data) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
     l = len(data)
     inserts = []
