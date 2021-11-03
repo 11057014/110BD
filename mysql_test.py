@@ -92,7 +92,8 @@ def connect2mysql(host,user,passwd,db):
     return db, cursor
 
 #將資料存入mysql
-def insert2mysql(table, data):
+def insert2mysql():
+    table, data=q.get()
     sql = """INSERT INTO """+table+"""(network,station,location,channel,starttime,endtime,sampling_rate,delta,npts,calib,data) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
     l = len(data)
     inserts = []
@@ -103,6 +104,7 @@ def insert2mysql(table, data):
 		str(data[i].stats['npts']), str(data[i].stats['calib']), str(data[i].data)])
     cursor.executemany(sql,inserts)
     db.commit()
+    q.task_done()
 
 #查找Table內所有資料
 def selectAll(table):
@@ -144,11 +146,16 @@ def timeSpent(f):
         return response
     return wrapper
 
+import threading, queue
+q = queue.Queue()
+threading.Thread(target=insert2mysql, daemon=True).start()
 #配合上面之api來計算mysql操作時間
 @timeSpent
 def insertTest(times,data,table):
     for i in range(times):
-        insert2mysql(table,data)
+        q.put(table,data)
+        #insert2mysql(table,data)
+    q.join()
     return
     
 @timeSpent
