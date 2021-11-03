@@ -191,11 +191,11 @@ def selectGroupByStationQuery(table, network='SMT'):
 db, cursor=connect2mysql('127.0.0.1','root','0','test') #連線
 
 caseInfo = ['10萬筆資料','8萬筆資料','6萬筆資料','4萬筆資料','2萬筆資料']
-databaseCollection = [{'database':'test','collection':'test1', 'Loops':271},
-                      {'database':'test','collection':'test2', 'Loops':221},
-                      {'database':'test','collection':'test3', 'Loops':161},
-                      {'database':'test','collection':'test4', 'Loops':111},
-                      {'database':'test','collection':'test5', 'Loops':51}
+databaseCollection = [{'database':'test','collection':'test1', 'Loops':2711},
+                      {'database':'test','collection':'test2', 'Loops':2211},
+                      {'database':'test','collection':'test3', 'Loops':1611},
+                      {'database':'test','collection':'test4', 'Loops':1111},
+                      {'database':'test','collection':'test5', 'Loops':511}
                      ]
 
 for i in range(5):
