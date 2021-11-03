@@ -92,8 +92,7 @@ def connect2mysql(host,user,passwd,db):
     return db, cursor
 
 #將資料存入mysql
-def insert2mysql():
-    [table, data]=q.get()
+def insert2mysql(table, data):
     print(table)
     sql = """INSERT INTO """+table+"""(network,station,location,channel,starttime,endtime,sampling_rate,delta,npts,calib,data) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
     l = len(data)
@@ -147,16 +146,16 @@ def timeSpent(f):
         return response
     return wrapper
 
-import threading, queue
-q = queue.Queue()
-threading.Thread(target=insert2mysql, daemon=True).start()
+from multiprocessing import Pool, TimeoutError
+import time
+import os
 #配合上面之api來計算mysql操作時間
 @timeSpent
 def insertTest(times,data,table):
-    for i in range(times):
-        q.put([table,data])
-        #insert2mysql(table,data)
-    q.join()
+    with Pool(processes=4) as pool:
+        for i in range(times):
+            pool.apply_async(f, ([table,data],))
+            #insert2mysql(table,data)
     return
     
 @timeSpent
