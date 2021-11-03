@@ -154,7 +154,7 @@ import os
 def insertTest(times,data,table):
     with Pool(processes=4) as pool:
         for i in range(times):
-            pool.apply_async(f, ([table,data],))
+            pool.apply_async(insert2mysql, ([table,data],))
             #insert2mysql(table,data)
     return
     
