@@ -106,7 +106,7 @@ def insert2mysql(table, data):
 
 #查找Table內所有資料
 def selectAll(table):
-    cursor.execute("select * from "+table+" limit 500")
+    cursor.execute("select * from "+table)
     data = cursor.fetchall()
     return data
 
